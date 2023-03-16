@@ -12,8 +12,12 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 public class App{
  
      public  App (){
-          String cep = "345342198";
-          String url = "https://viacep.com.br/ws/01001000/json/";
+          String cep = "01001000";
+          if(cep.length()==8){
+         // String url = "https://viacep.com.br/ws/01001000/json/";
+         String url = "https://viacep.com.br/ws/"+cep+"/json/";
+         //cidade com nome composto ta dando problema 
+          String urn = "https://viacep.com.br/ws/RS/Gravatai/Panorama/json/";
 
     try { HttpClient httpClient = HttpClient.newBuilder() .connectTimeout(Duration.of(1, MINUTES))
          .build();
@@ -33,6 +37,10 @@ public class App{
         }
 
      }
+     else if(cep.length()!=8){
+          System.out.println("digite um cep valido");
+     }
+}
      public static void main(String args[]){
           new App();
      }
