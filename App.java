@@ -10,20 +10,31 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 
 
 public class App{
-
-    String url = "https://viacep.com.br/ws/01001000/json/";
-
+ 
+     public  App (){
+          String cep = "345342198";
+          String url = "https://viacep.com.br/ws/01001000/json/";
+          
     try { HttpClient httpClient = HttpClient.newBuilder() .connectTimeout(Duration.of(1, MINUTES))
          .build();
 
-         httpRequest = HttpRequest.newBuilder()
-         .GET()
-        .uri(URI.create(url))
-         .build();
+        var httpRequest = HttpRequest.newBuilder()
+     
+     .GET()
+     .uri(URI.create(url))
+     .header("CEP", cep)
+     .build();
 
-         httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
           System.out.println(httpResponse.body()); 
-        } catch (IOException e) { e.printStackTrace();
-             throw new RuntimeException(e.getMessage()); 
-            } catch (InterruptedException e) { e.printStackTrace(); throw new RuntimeException(e.getMessage()); }
+        } catch (IOException | InterruptedException e) { 
+          e.printStackTrace();
+          throw new RuntimeException(e.getMessage());
+        }
+
+     }
+     public static void main(String args[]){
+          new App();
+     }
 }
+     
