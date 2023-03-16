@@ -4,7 +4,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration; 
+import java.time.Duration;
+import java.util.Scanner;
+
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 
@@ -12,10 +14,13 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 public class App{
  
      public  App (){
-          String cep = "01001000";
-          if(cep.length()==8){
+          Scanner in = new Scanner(System.in);
+
+         // System.out.println("digite um cep valido");
+         // String cep = in.next();
+         
          // String url = "https://viacep.com.br/ws/01001000/json/";
-         String url = "https://viacep.com.br/ws/"+cep+"/json/";
+        // String url = "https://viacep.com.br/ws/"+cep+"/json/";
          //cidade com nome composto ta dando problema 
           String urn = "https://viacep.com.br/ws/RS/Gravatai/Panorama/json/";
 
@@ -25,8 +30,8 @@ public class App{
         var httpRequest = HttpRequest.newBuilder()
      
      .GET()
-     .uri(URI.create(url))
-     .header("CEP", cep)
+     .uri(URI.create(urn))
+     
      .build();
 
         var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -37,12 +42,10 @@ public class App{
         }
 
      }
-     else if(cep.length()!=8){
-          System.out.println("digite um cep valido");
-     }
-}
+    
+
      public static void main(String args[]){
           new App();
      }
+
 }
-     
