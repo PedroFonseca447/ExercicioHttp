@@ -11,7 +11,7 @@ public class Welcome {
     private String gia;
     private String ddd;
     private String siafi;
-
+    // prestar atenção no exemplo do CEP de pesquisa e seguir a ideia do codigo de pesquisa
     public String getCep() { return cep; }
     public void setCep(String value) { this.cep = value; }
 

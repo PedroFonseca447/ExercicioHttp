@@ -14,7 +14,7 @@ public class App{
      public  App (){
           String cep = "345342198";
           String url = "https://viacep.com.br/ws/01001000/json/";
-          
+
     try { HttpClient httpClient = HttpClient.newBuilder() .connectTimeout(Duration.of(1, MINUTES))
          .build();
 
