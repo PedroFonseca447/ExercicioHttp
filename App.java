@@ -14,9 +14,18 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 public class App{
  
      public  App (){
-          Scanner in = new Scanner(System.in);
+         Scanner in = new Scanner(System.in);
+
+         int key = Integer.parseInt(in.nextLine());
+
+         switch(key){
+
+          case 1:
+          System.out.println("Digite seu estado");
           String estado = in.next();
+          System.out.println("Digite sua cidade");
           String cidade = in.next();
+          System.out.println("Logradouro");
           String logradouro = in. next();
          // System.out.println("digite um cep valido");
          // String cep = in.next();
@@ -41,7 +50,8 @@ public class App{
           e.printStackTrace();
           throw new RuntimeException(e.getMessage());
         }
-
+        
+     }
      }
     
 
