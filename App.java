@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -9,54 +8,115 @@ import java.util.Scanner;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
+public class App {
 
+    public static void main(String args[]) {
+        menu();       
+    }
 
-public class App{
- 
-     public  App (){
-         Scanner in = new Scanner(System.in);
+    public static void menu(){
+        Scanner scanner2 = new Scanner(System.in);
 
-         int key = Integer.parseInt(in.nextLine());
+        int escolha = 0;
 
-         switch(key){
+        while (escolha != 3) {
+            System.out.println("O que você deseja?");
+            System.out.println("1. Buscar um CEP");
+            System.out.println("2. Validar um CEP");
+            System.out.println("3. Sair");
 
-          case 1:
-          System.out.println("Digite seu estado");
-          String estado = in.next();
-          System.out.println("Digite sua cidade");
-          String cidade = in.next();
-          System.out.println("Logradouro");
-          String logradouro = in. next();
-         // System.out.println("digite um cep valido");
-         // String cep = in.next();
-         
-         // String url = "https://viacep.com.br/ws/01001000/json/";
-        // String url = "https://viacep.com.br/ws/"+cep+"/json/";
-         //cidade com nome composto ta dando problema 
-          //String urn = "https://viacep.com.br/ws/RS/Gravatai/Panorama/json/";
-          String urn = "https://viacep.com.br/ws/"+estado+"/"+cidade+"/"+logradouro+"/json/";
+            escolha = scanner2.nextInt();
+            System.out.println("Sua escolha foi:" + escolha);
+            System.out.println();
 
-    try { HttpClient httpClient = HttpClient.newBuilder() .connectTimeout(Duration.of(1, MINUTES))
-         .build();
-       var httpRequest = HttpRequest.newBuilder()
-     .GET()
-     .uri(URI.create(urn))
-     
-     .build();
-      var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-          System.out.println(httpResponse.body());
-        
-        } catch (IOException | InterruptedException e) { 
-          e.printStackTrace();
-          throw new RuntimeException(e.getMessage());
+            switch (escolha) {
+                case 1:
+                    buscaCep();
+                    break;
+                case 2:
+                    validaCep();
+                    break;
+                case 3:
+                    System.out.println("Obrigado por utilizar o programa");
+                    break;
+                default:
+                    System.out.println("Não sei o que tu fez, mas certo não foi.");
+                    break;
+            }
+            
         }
+
+    }
+
+    public static void buscaCep(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Por favor digite um cep");
+        String cep = scanner.nextLine();
         
-     }
-     }
-    
+        String url = "https://viacep.com.br/ws/" + cep + "/json";
 
-     public static void main(String args[]){
-          new App();
-     }
+        try {
+            HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.of(1, MINUTES))
+                    .build();
 
-}
+            var httpRequest = HttpRequest.newBuilder()
+
+                    .GET()
+                    .uri(URI.create(url))
+                    //.header("CEP", cep)
+                    .build();
+
+            var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            String json = httpResponse.body();
+            
+            if(json.charAt(0) != '{'){
+                System.out.println("Errou no cep amigão, paia demais. Vamo denovo");
+            }else{
+                System.out.println(json);
+                System.out.println();
+            }
+            menu();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
+
+    public static void validaCep(){
+      Scanner in = new Scanner(System.in);
+      System.out.println("Digite seu estado");
+      String estado = in.nextLine();
+      System.out.println("Digite sua cidade");
+      String cidade = in.nextLine();
+      System.out.println("Logradouro");
+      String logradouro = in. nextLine();
+  
+      String urn = "https://viacep.com.br/ws/"+ estado +"/"+ cidade +"/"+ logradouro +"/json/";
+      try {
+        HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.of(1, MINUTES))
+                .build();
+
+        var httpRequest = HttpRequest.newBuilder()
+
+                .GET()
+                .uri(URI.create(urn))
+               
+                .build();
+
+        var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        String json = httpResponse.body();
+        
+        if(json.charAt(0) != '{'){
+            System.out.println("Errou em algum dos dados informados anteriormente");
+        }else{
+            System.out.println(json);
+            System.out.println();
+        }
+        menu();
+    } catch (IOException | InterruptedException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e.getMessage());
+    }
+    }
+  }
