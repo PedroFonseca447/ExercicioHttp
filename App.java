@@ -106,17 +106,18 @@ public class App {
 
         var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         String json = httpResponse.body();
-        
-        if(json.charAt(0) != '{'){
+   
+         if(json.charAt(0) != '['){
             System.out.println("Errou em algum dos dados informados anteriormente");
         }else{
             System.out.println(json);
-            System.out.println();
+             System.out.println();
         }
-        menu();
+      menu();
     } catch (IOException | InterruptedException e) {
         e.printStackTrace();
         throw new RuntimeException(e.getMessage());
     }
     }
+
   }
